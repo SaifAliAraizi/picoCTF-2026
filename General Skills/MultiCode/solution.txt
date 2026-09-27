@@ -1,0 +1,53 @@
+MultiCode
+General Skills
+Easy
+by Yahaya Meddy
+·
+picoCTF 2026
+We intercepted a suspiciously encoded message, but it’s clearly hiding a flag. No encryption, just multiple layers of obfuscation. Can you peel back the layers and reveal the truth? Download the message
+.
+
+Solution:
+
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/MultiCode]
+└─$ ls
+message.txt  solution.txt
+                                                                                                                                                                                 
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/MultiCode]
+└─$ cat message.txt                                   
+NmU3MDZlNzE3MjdhNmMyNTM3NDI2MTcyNjY2NzcyNzE1ZjcyNjE3MDMwNzE3NjYxNzQ1ZjM3MzQ2ZTczMzA3MDM2MzUyNTM3NDQ=
+
+
+Go to https://gchq.github.io/CyberChef/
+
+Enter the above Encoded message inside input section
+
+Apply base64 decode first
+
+then Apply hex decode
+
+then apply ROT13 decode
+
+Now you will get:
+academy%7Onested_enc0ding_74af0c65%7Q
+
+We almost found the flag;
+
+The suspicious characters are:
+
+%7O
+%7Q
+
+They should probably become:
+
+%7B
+%7D
+
+because URL encoding for { and } is:
+
+%7B = {
+%7D = }
+
+So the intended flag is very likely:
+
+academy{nested_enc0ding_74af0c65}

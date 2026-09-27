@@ -1,0 +1,59 @@
+Printer Shares
+General Skills
+Easy
+by Janice He
+·
+picoCTF 2026
+Oops! Someone accidentally sent an important file to a network printer—can you retrieve it from the print server? The printer is on 20239.
+
+you can try $ nc -vz chatelaine.cylabacademy.net 20239
+
+Solution:
+
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/Printer Shares]
+└─$ nc -vz chatelaine.cylabacademy.net 20239              
+DNS fwd/rev mismatch: chatelaine.cylabacademy.net != ec2-18-227-187-235.us-east-2.compute.amazonaws.com
+chatelaine.cylabacademy.net [18.227.187.235] 20239 (?) open
+                   
+
+# Hint in Problemset shows smbclient could help, so I used smbclient,
+ 
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/Printer Shares]
+└─$ smbclient -L 18.227.187.235 -p 20239 -N
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        shares          Disk      Public Share With Guests
+        IPC$            IPC       IPC Service (Samba 4.19.5-Ubuntu)
+Reconnecting with SMB1 for workgroup listing.
+do_connect: Connection to 18.227.187.235 failed (Error NT_STATUS_IO_TIMEOUT)
+Unable to connect with SMB1 -- no workgroup available
+
+# Now we have no that the shares folder exist in this smb server
+
+# Getting the reesources from shares of smb server by connecting with smb server
+                                                                                                          
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/Printer Shares]
+└─$ smbclient //18.227.187.235/shares -p 20239 -N
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Wed Sep 23 03:02:26 2026
+  ..                                  D        0  Wed Sep 23 03:02:26 2026
+  dummy.txt                           N     1142  Tue Sep 22 20:59:21 2026
+  flag.txt                            N       37  Wed Sep 23 03:02:26 2026
+
+                65536 blocks of size 1024. 59968 blocks available
+
+# get is used to download the file from smb server to your local machine.
+
+smb: \> get flag.txt
+getting file \flag.txt of size 37 as flag.txt (0.0 KiloBytes/sec) (average 0.0 KiloBytes/sec)
+smb: \> ^C
+                                                                                                                                                                                 
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/Printer Shares]
+└─$ ls
+flag.txt  solution.txt
+                                                                                                                                                                                 
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/Printer Shares]
+└─$ cat flag.txt                                      
+academy{5mb_pr1nter_5h4re5_80a1eed5}

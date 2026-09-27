@@ -1,0 +1,23 @@
+bytemancy 1
+General Skills
+Easy
+by LT 'syreal' Jones
+·
+picoCTF 2026
+Can you conjure the right bytes? The program's source code can be downloaded here
+. Connect to the program with netcat:
+
+$ nc xebec.cylabacademy.net 12825
+
+Solution:
+
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/bytemancy 1]
+└─$ python3 -c "print('e' * 1751)" | nc xebec.cylabacademy.net 12825
+⊹──────[ BYTEMANCY-1 ]──────⊹
+☍⟐☉⟊☽☈⟁⧋⟡☍⟐☉⟊☽☈⟁⧋⟡☍⟐☉⟊☽☈⟁⧋⟡☍⟐
+
+Send me ASCII DECIMAL 101 1751 times, side-by-side, no space.
+
+☍⟐☉⟊☽☈⟁⧋⟡☍⟐☉⟊☽☈⟁⧋⟡☍⟐☉⟊☽☈⟁⧋⟡☍⟐
+⊹─────────────⟡─────────────⊹
+==> academy{h0w_m4ny_e's???_17ac1ce5}

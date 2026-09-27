@@ -1,0 +1,126 @@
+Piece by Piece
+General Skills
+Easy
+by Yahaya Meddy
+·
+picoCTF 2026
+After logging in, you will find multiple file parts in your home directory. These parts need to be combined and extracted to reveal the flag. SSH to xebec.cylabacademy.net:38056 and login as ctf-player with password d65a1577.
+
+Solution:
+
+                                                                                                                                                                                 
+┌──(kali㉿kali)-[~/Desktop/picoCTF 2026/General Skills/Piece by Piece]
+└─$ ssh -p 38056 ctf-player@xebec.cylabacademy.net  
+The authenticity of host '[xebec.cylabacademy.net]:38056 ([3.14.181.178]:38056)' can't be established.
+ED25519 key fingerprint is SHA256:wA7PfZ3HBheVJW53Vy8120QYomN6JJqxg1En7ItEphE.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:4: [hashed name]
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[xebec.cylabacademy.net]:38056' (ED25519) to the list of known hosts.
+ctf-player@xebec.cylabacademy.net's password: 
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 7.0.0-1013-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+ctf-player@academy-chall$ ls -la
+total 28
+drwxr-xr-x 1 ctf-player ctf-player  20 Sep 26 05:14 .
+drwxr-xr-x 1 root       root        24 Sep 23 07:00 ..
+drwx------ 2 ctf-player ctf-player  34 Sep 26 05:14 .cache
+-rw-r--r-- 1 root       root        70 Sep 23 07:00 .profile
+-rw-r--r-- 1 ctf-player ctf-player 282 Sep 23 00:59 instructions.txt
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_aa
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ab
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ac
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ad
+-rw-r--r-- 1 ctf-player ctf-player  35 Sep 23 07:00 part_ae
+
+ctf-player@academy-chall$ cat instructions.txt
+Hint:
+
+- The flag is split into multiple parts as a zipped file.
+- Use Linux commands to combine the parts into one file.
+- The zip file is password protected. Use this "supersecret" password to extract the zip file.
+- After unzipping, check the extracted text file for the flag.
+
+
+ctf-player@academy-chall$ cat part_* > combined_file
+ctf-player@academy-chall$ ls -la
+total 36
+drwxr-xr-x 1 ctf-player ctf-player  41 Sep 26 05:15 .
+drwxr-xr-x 1 root       root        24 Sep 23 07:00 ..
+drwx------ 2 ctf-player ctf-player  34 Sep 26 05:14 .cache
+-rw-r--r-- 1 root       root        70 Sep 23 07:00 .profile
+-rw-rw-r-- 1 ctf-player ctf-player 239 Sep 26 05:15 combined_file
+-rw-r--r-- 1 ctf-player ctf-player 282 Sep 23 00:59 instructions.txt
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_aa
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ab
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ac
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ad
+-rw-r--r-- 1 ctf-player ctf-player  35 Sep 23 07:00 part_ae
+
+ctf-player@academy-chall$ cat combined_file
+PK
+        87]��d�9flag.txtUT      �x�j�x�jux
+                                          I1�8�6�v��OU��*}T&(Z�Wc��Ft�D�w����o3�B�V�▒.u���yt���P��d�9-PK
+        87]��d�9▒��flag.txtUT�x�jux
+
+# 003 004 confirms that it is zipped archive file so we simply unzip it.
+
+ctf-player@academy-chall$ xxd combined_file || hexdump -C combined_file || od -c combined_file
+-bash: xxd: command not found
+-bash: hexdump: command not found
+0000000   P   K 003 004  \n  \0  \t  \0  \0  \0 002   8   7   ] 242 233
+0000020   d 370   9  \0  \0  \0   -  \0  \0  \0  \b  \0 034  \0   f   l
+0000040   a   g   .   t   x   t   U   T  \t  \0 003 363   x 263   j 363
+0000060   x 263   j   u   x  \v  \0 001 004  \0  \0  \0  \0 004  \0  \0
+0000100  \0  \0   I   1 234   8 234   6 211   v 214 252   O   U  \0 226
+0000120 206   *   }   T   &   (   Z 267   W   c 244 341   F   t 267   D
+0000140 263   w 267 204 371 265 024   o   3 350 021 003   B 265   V 314
+0000160 030   .   u 272 272 373   y   t 222 336 347   P   K  \a  \b 242
+0000200 233   d 370   9  \0  \0  \0   -  \0  \0  \0   P   K 001 002 036
+0000220 003  \n  \0  \t  \0  \0  \0 002   8   7   ] 242 233   d 370   9
+0000240  \0  \0  \0   -  \0  \0  \0  \b  \0 030  \0  \0  \0  \0  \0 001
+0000260  \0  \0  \0 244 201  \0  \0  \0  \0   f   l   a   g   .   t   x
+0000300   t   U   T 005  \0 003 363   x 263   j   u   x  \v  \0 001 004
+0000320  \0  \0  \0  \0 004  \0  \0  \0  \0   P   K 005 006  \0  \0  \0
+0000340  \0 001  \0 001  \0   N  \0  \0  \0 213  \0  \0  \0  \0  \0
+0000357
+
+ctf-player@academy-chall$ unzip combined_file
+Archive:  combined_file
+[combined_file] flag.txt password: 
+password incorrect--reenter: 
+ extracting: flag.txt      
+           
+ctf-player@academy-chall$ ls -la
+total 36
+drwxr-xr-x 1 ctf-player ctf-player  57 Sep 26 05:17 .
+drwxr-xr-x 1 root       root        24 Sep 23 07:00 ..
+drwx------ 2 ctf-player ctf-player  34 Sep 26 05:14 .cache
+-rw-r--r-- 1 root       root        70 Sep 23 07:00 .profile
+-rw-rw-r-- 1 ctf-player ctf-player 239 Sep 26 05:15 combined_file
+-rw-r--r-- 1 ctf-player ctf-player  45 Sep 23 07:00 flag.txt
+-rw-r--r-- 1 ctf-player ctf-player 282 Sep 23 00:59 instructions.txt
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_aa
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ab
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ac
+-rw-r--r-- 1 ctf-player ctf-player  51 Sep 23 07:00 part_ad
+-rw-r--r-- 1 ctf-player ctf-player  35 Sep 23 07:00 part_ae
+
+ctf-player@academy-chall$ cat flag.txt
+academy{z1p_and_spl1t_f1l3s_4r3_fun_fb11ace9}
